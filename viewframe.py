@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 import numpy as np
-import cv2
+from cv2 import cv2
 import sys,getopt
+from customcvfunc import getFrame
+
+# usage viewframe.py -l <location_of_vid> -s <which second> -o <output_file>
 
 
 def parse(argv):
@@ -26,15 +29,6 @@ def parse(argv):
 
 
 
-
-def getFrame(sec,VidCapObj):
-    start = 180000 # the 3 minute mark
-    VidCapObj.set(cv2.CAP_PROP_POS_MSEC, start + sec*1000) # gets one frame ,frame at  3 minte mark+ sec
-    hasFrames,image = VidCapObj.read()
-    print("getFrame.log: got a frame at",start + sec*1000,"sec mark , status :",hasFrames)
-    return hasFrames, image
-
-
 if __name__ == "__main__":
 
     
@@ -50,7 +44,7 @@ if __name__ == "__main__":
 
 
     vidcap=cv2.VideoCapture(fileloc)
-    success,image = getFrame(sec,vidcap)
+    success,image = getFrame(sec,vidcap,seek=0)
     print(success)
     print(image.shape)
     print("PRESS Q to quit")
